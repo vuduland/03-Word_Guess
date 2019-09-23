@@ -1,0 +1,27 @@
+h1 {
+position: center;
+
+}
+
+.wins {
+float: left;
+
+}
+
+.guessesRemaining {
+float: left;
+
+
+}
+
+.guessedLetters {
+
+
+}
+
+
+
+.word {
+position: center;
+
+}
