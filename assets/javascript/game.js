@@ -13,9 +13,12 @@ var wordGuessGame = function() {
     "sagas"
   ];
   var chosenWord = wordList[Math.round(Math.random() * 10)];
-  var ask = " ";
+  var ask = "";
   var guessedLetters = [];
   var guesses = 14;
+  var wins = 0;
+  var losses = 0;
+  var clearWindow;
 
   var elope = function() {
     console.log("wordlist[0] = " + wordList[0]);
@@ -23,23 +26,35 @@ var wordGuessGame = function() {
     console.log("wordlist[0] = " + wordList[0]);
     console.log(chosenWord);
   };
-	elope();
-	window.addEventListener("keyup", start, true);
-	var askUser = function (event) {
-		ask = event.key;
-    //ask = document.addEventListener("keyup",  ).char;
+  elope();
+
+  window.addEventListener("keyup", start, true);
+
+  var askUser = function(guesses, wins, losses) {
+    document.getElementById("guessedOne").innerText = "Type your guesses!";
     console.log(ask);
 
-    // switch () {
-    // 	case value:
+    for (var i = 0; i < wordList.length; i++) {
+      guessedLetters[i] = document.addEventListener("keyup", this, true);
+    }
+    for (var i = 0; i < 14; i++) {
+      if (guessedLetters[i] === chosenWord[i]) {
+        document.getElementById("theWord").innerText = guessedLetters[i];
+        guessedLetters[i] = chosenWord[i];
+        guesses--;
+        wins++;
+        document.getElementById("guessesLeft").innerText = guesses;
 
-    // 		break;
+        guesses = document.getElementById("guessesLeft").innerText;
 
-    // 	default:
-    // 		break;
-    // }
-
-    // guessedLetters[i] = document.addEventListener("keyup");
+        document.getElementById("wins").innerHTML = wins;
+      } else {
+        guesses--;
+        losses++;
+        document.getElementById("guessesLeft").innerHTML = guesses;
+        document.getElementById("lossCount").innerHTML = losses;
+      }
+    }
   };
   var start = function() {
     //alert("Press any key to get started!");
@@ -48,7 +63,18 @@ var wordGuessGame = function() {
 
   start();
 
-  var clearWindow = function() {};
+	function clearWindow() {
+		document.getElementById("askButton").innerText = "Click Here to Restart.";
+	  $(".clear").on("click", function() {
+      $("#first-number").empty();
+      $("#second-number").empty();
+      $("#operator").empty();
+      $("#result").empty();
+      input = 1;
+      firstNum = "";
+      secNum = "";
+    });
+  };
 };
 wordGuessGame();
 
