@@ -3,19 +3,12 @@
 	margin-top: 1.5em;
 }
 
-/* .row > * {
-	margin-top: 0;
-} */
-
-
-body, html {
-	height: 100%
-}
-
-.img-fluid {
-  background-image: url("assets\images\look-up.jpg");
-  height: 100%;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
+body{
+  font-family: sans-serif;
+  background-color: #222222;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+	height: 100vh;
 }
