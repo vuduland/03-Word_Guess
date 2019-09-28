@@ -1,1 +1,0 @@
-slice 160px by 1870px out of the center of the altered fractal image and put in jumbotron

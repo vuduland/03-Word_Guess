@@ -45,7 +45,7 @@ var game = {
 
     // @ts-ignore
 
-    this.elements.remainCount.textContent = this.guessesLeft--;
+    this.elements.remainCount.textContent = this.guessesLeft--; // move this decrement to check if you win function
     // @ts-ignore
     this.elements.guessBox.textContent = this.guessedLetters;
     // @ts-ignore
