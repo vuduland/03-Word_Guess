@@ -1,0 +1,31 @@
+#bg-image {
+    width: 1920px;
+    height: 400px;
+}
+h1 {
+position: center;
+
+}
+
+.wins {
+float: left;
+
+}
+
+.guessesRemaining {
+float: left;
+
+
+}
+
+.guessedLetters {
+
+
+}
+
+
+
+.word {
+position: center;
+
+}
