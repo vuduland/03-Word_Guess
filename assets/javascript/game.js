@@ -1,4 +1,4 @@
-/* eslint-disable no-plusplus */
+
 /* <body>
   <h1> PALINDROMES </h1>
   <p id="wins"> Wins: </p>
