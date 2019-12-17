@@ -1,4 +1,3 @@
-
 var game = {
 
   randoWord: null,
@@ -24,7 +23,7 @@ var game = {
     'tenet',
     'sagas',
   ],
-  //references the html elements to be used, and assigns them to a key word.
+  // references html elements and assigns them to key word.
   elements: {
     wordRandom: document.getElementById("word-box"),
     remainCount: document.getElementById("remain-box"),
@@ -33,8 +32,9 @@ var game = {
     lossCount: document.getElementById("loss-box"),
   },
 
-  //generates random word from wordList and initalizes/stores the resulting word inside the randoWord property of the game object
-  //references this(the game object).randoWord(the game object property), assigns that to method that spits out a wordList item at index b/n 1 and 10, as the Math.random() function produces a number between 0 and 1, which gets multiplied by 10 and rounded to a whole number/integer
+  // Generates random word from wordList, initalizes and stores word inside the randoWord property of the game object.
+  // This method references the game object with keyword 'this' and randoWord property with 'this.randoWord', then assigns wordList[] between 1 and 10
+  // Math.random() produces a number between 0 and 1, is multiplied by 10 and rounded whole number/integer.
   generateWord: function () {
     this.randoWord = this.wordList[Math.round(Math.random() * 10)];
     console.log("1. generateWord");
@@ -57,7 +57,8 @@ var game = {
       this.guessedLetters = [];
     } else if (this.areTheyLose() == true) {
       console.log("20. initGame else if 2");
-      this.addEventListener("click", this.losePlayAgain());
+      this.addEventListener("", this.losePlayAgain());
+      this.addEventListener()
       this.losses++;
       this.randoWord = null;
       this.guessesLeft = 9;
@@ -154,7 +155,7 @@ var game = {
     for (var i = 0; i < this.randoWord.length; i++) {
       hiddenWord[i] = this.randoWord[i];
       console.log("14.areTheyLose for loop");
-    } if ((hiddenWord.includes('_ ') == true) && (this.guessesLeft == 0)){
+    } if ((hiddenWord.includes('_ ') == true) && (this.guessesLeft == 0)) {
       console.log("15.areTheyLose if statement");
       return true;
     } else {
@@ -163,17 +164,17 @@ var game = {
     }
   },
 
-  }
+}
 
-  // 	$('.clear').on('click', function () {
-  // 		$('#first-number').empty();
-  // 		$('#second-number').empty();
-  // 		$('#operator').empty();
-  // 		$('#result').empty();
-  // 		input = 1;
-  // 		firstNum = '';
-  // 		secNum = '';
-  // 	};
+// 	$('.clear').on('click', function () {
+// 		$('#first-number').empty();
+// 		$('#second-number').empty();
+// 		$('#operator').empty();
+// 		$('#result').empty();
+// 		input = 1;
+// 		firstNum = '';
+// 		secNum = '';
+// 	};
 
 
 
