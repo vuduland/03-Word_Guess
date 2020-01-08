@@ -1,3 +1,4 @@
+/* eslint-disable no-alert, no-console */
 const game = {
   randoWord: null,
   guessesLeft: 9,
