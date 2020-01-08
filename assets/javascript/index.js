@@ -3,13 +3,13 @@ var game = {
   randoWord: null,
   guessesLeft: 9,
   guessedLetters: [],
-  won: prompt("You won! Do you want to play again?"),
+  won: prompt('You won! Do you want to play again?'),
   lost: null,
   wins: 0,
   losses: 0,
   //  lossPlayAgain: "You've lost. Insert floppy disk to continue. Just kidding. Press Ok.",
   //   winPlayAgain: "You won! Press Ok to play again!",
-  goodbye: "Goodbye!",
+  goodbye: 'Goodbye!',
   wordList: [
     'racecar',
     'anna',
@@ -25,46 +25,47 @@ var game = {
   ],
   // references html elements and assigns them to key word.
   elements: {
-    wordRandom: document.getElementById("word-box"),
-    remainCount: document.getElementById("remain-box"),
-    guessBox: document.getElementById("guess-box"),
-    winCount: document.getElementById("win-box"),
-    lossCount: document.getElementById("loss-box"),
+    wordRandom: document.getElementById('word-box'),
+    remainCount: document.getElementById('remain-box'),
+    guessBox: document.getElementById('guess-box'),
+    winCount: document.getElementById('win-box'),
+    lossCount: document.getElementById('loss-box'),
   },
 
   // Generates random word from wordList, initalizes and stores word inside the randoWord property of the game object.
   // This method references the game object with keyword 'this' and randoWord property with 'this.randoWord', then assigns wordList[] between 1 and 10
   // Math.random() produces a number between 0 and 1, is multiplied by 10 and rounded whole number/integer.
   generateWord: function () {
-    this.randoWord = this.wordList[Math.round(Math.random() * 10)];
-    console.log("1. generateWord");
-    return this.randoWord;
-
+    this.randoWord = this.wordList[Math.round(Math.random() * 10)]
+    console.log('1. generateWord')
+    return this.randoWord
   },
 
-  initializeGame: function () { //move this back into updateGameScreen and counter doesn't go to zero, but you do lose and game stops. If outside counter goes to zero and lose and game stops. The winPlayAgain function never shows up if you win. have to check if it is correct, which is what I thought line88 did.
-    console.log("17. initGame");
+  initializeGame: function () {
+    // move this back into updateGameScreen and counter doesn't go to zero, but you do lose and game stops. If outside counter goes to zero and lose and game stops. The winPlayAgain function never shows up if you win. have to check if it is correct, which is what I thought line88 did.
+
+    console.log('17. initGame');
 
     if (this.guessesLeft > 0 && this.guessedLetters != this.randoWord) {
-      console.log("18. initGame if");
+      console.log('18. initGame if');
       return;
     } else if (this.areTheyWin() == true) {
-      console.log("19. initGame else if 1");
-      this.addEventListener("click", this.winPlayAgain());
+      console.log('19. initGame else if 1');
+      this.addEventListener('click', this.winPlayAgain());
       this.wins++;
       this.randoWord = null;
       this.guessesLeft = 9;
       this.guessedLetters = [];
     } else if (this.areTheyLose() == true) {
-      console.log("20. initGame else if 2");
-      this.addEventListener("", this.losePlayAgain());
+      console.log('20. initGame else if 2');
+      this.addEventListener('', this.losePlayAgain());
       this.addEventListener()
       this.losses++;
       this.randoWord = null;
       this.guessesLeft = 9;
       this.guessedLetters = [];
     } else {
-      console.log("21. initGame else");
+      console.log('21. initGame else');
       alert(this.goodbye);
       return;
     }
@@ -74,9 +75,9 @@ var game = {
 
   //updates DOM with current values of the game stats.
   updateGameScreen: function () {
-    console.log("5. updateGameScreen");
+    console.log('5. updateGameScreen');
     this.elements.wordRandom.textContent = this.getHiddenWord(); //calls getHiddenWord function everytime the updateGameScreen property/function is ran.
-    console.log("6. getHiddenWord");
+    console.log('6. getHiddenWord');
     // @ts-ignore
     this.elements.remainCount.textContent = this.guessesLeft; // move this decrement to check if you win function
     // @ts-ignore
@@ -89,7 +90,7 @@ var game = {
 
   //Generates the current word with letters that haven't been guessed as underscores.
   getHiddenWord: function () {
-    var hiddenWord = "";
+    var hiddenWord = '';
     for (var i = 0; i < this.randoWord.length; i++) {
       var currentLetter = this.randoWord[i];
       if (this.guessedLetters.includes(currentLetter)) {
@@ -98,7 +99,7 @@ var game = {
         hiddenWord += '_ ';
       }
     }
-    console.log("2. getHiddenWord");
+    console.log('2. getHiddenWord');
     return hiddenWord;
   },
 
@@ -106,25 +107,25 @@ var game = {
   // Returns whether or not letter is correct guess << think this needs removed <5:04pm 9.27.2019
   storeLetter: function (letter) {
     var noRepeat = letter.toLowerCase();
-    console.log("3. storeLetter");
+    console.log('3. storeLetter');
     if (this.guessedLetters.includes(noRepeat)) {
-      console.log("3a. storeLetter (inside if statement)");
+      console.log('3a. storeLetter (inside if statement)');
       return;
     }
     this.guessesLeft--;
     this.guessedLetters.push(noRepeat);
-    console.log("4. updateGameScreen");
+    console.log('4. updateGameScreen');
     this.updateGameScreen();
   },
 
   losePlayAgain: function () {
-    console.log("7. losePlayAgain");
+    console.log('7. losePlayAgain');
     prompt("You've lost. Insert floppy disk to continue. Just kidding. Press Ok.");
   },
 
   winPlayAgain: function () {
-    console.log("8. winPlayAgain");
-    prompt("You won! Do you want to play again?");
+    console.log('8. winPlayAgain');
+    prompt('You won! Do you want to play again?');
     // this.wins++;
     // this.randoWord = null;
     // this.guessesLeft = 9;
@@ -134,32 +135,32 @@ var game = {
 
   areTheyWin: function () {
     var underScores = [];
-    console.log("9. areTheyWin");
+    console.log('9. areTheyWin');
     for (var i = 0; i < this.randoWord.length; i++) {
       underScores[i] = this.randoWord[i];
-      console.log("10. areTheyWin for loop");
+      console.log('10. areTheyWin for loop');
 
     } if (underScores.includes('_ ') == false) {
-      console.log("11. areTheyWin if statement");
+      console.log('11. areTheyWin if statement');
       return true;
     } else {
-      console.log("12. areTheyWin else statement");
+      console.log('12. areTheyWin else statement');
       return false;
     }
   },
 
   areTheyLose: function () {
     var hiddenWord = [];
-    console.log("13.areTheyLose");
+    console.log('13.areTheyLose');
 
     for (var i = 0; i < this.randoWord.length; i++) {
       hiddenWord[i] = this.randoWord[i];
-      console.log("14.areTheyLose for loop");
+      console.log('14.areTheyLose for loop');
     } if ((hiddenWord.includes('_ ') == true) && (this.guessesLeft == 0)) {
-      console.log("15.areTheyLose if statement");
+      console.log('15.areTheyLose if statement');
       return true;
     } else {
-      console.log("16.areTheyLose else-statement");
+      console.log('16.areTheyLose else-statement');
       return false;
     }
   },
@@ -180,21 +181,21 @@ var game = {
 
 //calling the generateWord() property/function to generate and return a random word from wordList[];
 game.generateWord();
-console.log("22. generateWord outside call");
+console.log('22. generateWord outside call');
 
 game.initializeGame();
-console.log("24. initGame outside call");
+console.log('24. initGame outside call');
 
 game.updateGameScreen();
-console.log(game.randoWord + " LOOK HERE ");
-console.log("23. updateScreen outside call");
+console.log(game.randoWord + ' LOOK HERE ');
+console.log('23. updateScreen outside call');
 
 
 
 //assigns variable letter to user keypress
 document.onkeypress = function (event) {
   game.storeLetter(event.key);
-  console.log("25.storeLetter outside keypress call");
+  console.log('25.storeLetter outside keypress call');
 
 };
 
