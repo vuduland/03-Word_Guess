@@ -12,75 +12,73 @@
   <p id="guessedOne"> Guessed Letters: </p>
 </body> */
 
-let wordList = [
-    'racecar',
-    'anna',
-    'mom',
-    'level',
-    'kayak',
-    'rotator',
-    'stats',
-    'wow',
-    'rotor',
-    'tenet',
-    'sagas',
-];
-let generatedWord = wordList[Math.round(Math.random() * 10)];
-let guessedLetters = [" "];
-let guesses = 14;
-let wins = 0;
-let losses = 0;
+const wordList = [
+  'racecar',
+  'anna',
+  'mom',
+  'level',
+  'kayak',
+  'rotator',
+  'stats',
+  'wow',
+  'rotor',
+  'tenet',
+  'sagas'
+]
+const generatedWord = wordList[Math.round(Math.random() * 10)]
+const guessedLetters = [' ']
+const guesses = 14
+const wins = 0
+const losses = 0
 
-
-function go() {
-    console.log(`wordlist[0] = ${wordList[0]}`);
-    wordList[0] = document.getElementById('theWord').innerText;
-    console.log(`wordlist[0] = ${wordList[0]}`);
-    console.log(generatedWord);
+function go () {
+  console.log(`wordlist[0] = ${wordList[0]}`)
+  wordList[0] = document.getElementById('theWord').innerText
+  console.log(`wordlist[0] = ${wordList[0]}`)
+  console.log(generatedWord)
 };
-
 
 // function go() {
 //     let backGround = document.getElementById("ask");
 //     console.log(backGround);
 // }
-go();
+go()
 
-let askUser = function (guesses, wins, losses) {
-    document.getElementById('guessedOne').innerText = 'Type your guesses!';
-    console.log();
+const askUser = function (guesses, wins, losses) {
+  document.getElementById('guessedOne').innerText = 'Type your guesses!'
+  console.log()
 
-    for (let i = 0; i < wordList.length; i++) {
-        var e = document.getElementById("guessedOne");
-        var userInputs = document.addEventListener("keyup", e.onkeyup);
-        console.log(e.onkeyup);
+  for (let i = 0; i < wordList.length; i++) {
+    var e = document.getElementById('guessedOne')
+    var userInputs = document.addEventListener('keyup', e.onkeyup)
+    console.log(e.onkeyup)
+  }
+  for (let j = 0; j < 14; j++) {
+    if (guessedLetters[j] === generatedWord[j]) {
+      document.getElementById('theWord').innerText = guessedLetters[j]
+      guessedLetters[j] = generatedWord[j]
+      guesses++
+      wins++
+      document.getElementById('guessesLeft').innerText = guesses
+
+      guesses = document.getElementById('guessesLeft').innerText
+
+      document.getElementById('wins').innerHTML = wins
+    } else {
+      guesses -= 1
+      console.log('guesses')
+      losses += 1
+      console.log('losses')
+      document.getElementById('guessesLeft').innerHTML = guesses
+      document.getElementById('lossCount').innerHTML = losses
     }
-    for (let j = 0; j < 14; j++) {
-        if (guessedLetters[j] === generatedWord[j]) {
-            document.getElementById('theWord').innerText = guessedLetters[j];
-            guessedLetters[j] = generatedWord[j];
-            guesses++;
-            wins++;
-            document.getElementById('guessesLeft').innerText = guesses;
-
-            guesses = document.getElementById('guessesLeft').innerText;
-
-            document.getElementById('wins').innerHTML = wins;
-        } else {
-            guesses -= 1;
-            console.log('guesses');
-            losses += 1;
-            console.log('losses');
-            document.getElementById('guessesLeft').innerHTML = guesses;
-            document.getElementById('lossCount').innerHTML = losses;
-        }
-    }
-};
+  }
+}
 //    function start() {
 //     //alert('Press any key to get started!');
 
 // 	}
-askUser(guesses, wins, losses);
+askUser(guesses, wins, losses)
 // start();
 
 // start();
