@@ -1,14 +1,13 @@
 /* eslint-disable no-alert, no-console */
 
 const game = {
-  randoWord: null,
+  randoWord: ' ',
   guessesLeft: 9,
   guessedLetters: [],
   won: 'You won! Do you want to play again?',
   lost: null,
   wins: 0,
   losses: 0,
-  winHTML: `<button> ${this.won} </button>`,
   goodbye: 'Goodbye!',
   wordList: ['racecar', 'anna', 'mom', 'level', 'kayak', 'rotator', 'stats', 'wow', 'rotor', 'tenet', 'sagas'],
 
@@ -23,7 +22,11 @@ const game = {
   },
 
   check () {
-    if (this.guessesLeft === 0 && this.guessedLetters === this.randoWord) {
+
+      console.log(false)
+    if (this.wordRandom.innerHTML() === this.randoWord) {
+
+      console.log('true')
       return true
     }
   },
@@ -37,27 +40,33 @@ const game = {
     return this.randoWord
   },
 
-  initializeGame () {
-    // move this back into updateGameScreen and counter doesn't go to zero, but you do lose and game stops. If outside counter goes to zero and lose and game stops. The winPlayAgain function never shows up if you win. have to check if it is correct, which is what I thought line88 did.
+  win() {
+    this.wins++
+    this.randoWord = null
+    this.guessesLeft = 9
+    this.guessedLetters = []
+    this.updateGameScreen()
+  },
 
-    if (this.guessesLeft > 0 && this.guessedLetters !== this.randoWord) {
-
-    } else if (this.areTheyWin() === true) {
-      this.addEventListener('click', this.winPlayAgain())
-      this.wins++
-      this.randoWord = null
-      this.guessesLeft = 9
-      this.guessedLetters = []
-    } else if (this.areTheyLose() === true) {
-      this.addEventListener('', this.losePlayAgain())
-      this.addEventListener()
+  lose() {
+      this.losePlayAgain()
       this.losses++
       this.randoWord = null
       this.guessesLeft = 9
       this.guessedLetters = []
-    } else {
-      this.mainBox = this.winHTML
+      this.updateGameScreen()
+  },
+
+  initializeGame () {
+
+    if (this.check()) {
+      this.win()
+    } else if (this.check() === false) {
+      this.lose()
     }
+    this.generateWord()
+    this.updateGameScreen()
+    console.log(`${game.randoWord} LOOK HERE `)
   },
 
   // updates DOM with current values of the game stats.
@@ -101,6 +110,10 @@ const game = {
     /* eslint-disable */
     prompt("You've lost. Insert floppy disk to continue. Just kidding. Press Ok.")
     /* eslint-enable */
+    this.losses++
+    this.randoWord = null
+    this.guessesLeft = 9
+    this.guessedLetters = []
   },
 
   winPlayAgain () {
@@ -114,36 +127,36 @@ const game = {
     this.guessedLetters = []
   },
 
-  areTheyWin () {
-    const hiddenWord = []
-    for (let i = 0; i < this.randoWord.length; i++) {
-      hiddenWord[i] = this.randoWord[i]
-    }
-    if (hiddenWord.includes('_ ') === false) {
-      return true
-    } else {
-      return false
-    }
-  },
+  // areTheyWin () {
+  //   const hiddenWord = []
+  //   for (let i = 0; i < this.randoWord.length; i++) {
+  //     hiddenWord[i] = this.randoWord[i]
+  //   }
+  //   if (hiddenWord.includes('_ ') === false) {
+  //     return true
+  //   } else {
+  //     return false
+  //   }
+  // },
 
-  areTheyLose () {
-    const hiddenWord = []
-    for (let i = 0; i < this.randoWord.length; i++) {
-      hiddenWord[i] = this.randoWord[i]
-    }
-    if (hiddenWord.includes('_ ') === true && this.guessesLeft === 0) {
-      return true
-    }
-    return false
-  }
+  // areTheyLose () {
+  //   const hiddenWord = []
+  //   for (let i = 0; i < this.randoWord.length; i++) {
+  //     hiddenWord[i] = this.randoWord[i]
+  //   }
+  //   if (hiddenWord.includes('_ ') === true && this.guessesLeft === 0) {
+  //     return true
+  //   }
+  //   return false
+  // }
 }
 
 // calling the generateWord() property/function to generate and return a random word from wordList[];
-console.log('OUTPUT: won', game.won)
-game.generateWord()
+// game.generateWord()
+game.check()
 game.initializeGame()
-game.updateGameScreen()
-console.log(`${game.randoWord} LOOK HERE `)
+// game.updateGameScreen()
+// console.log(`${game.randoWord} LOOK HERE `)
 // assigns variable letter to user keypress
 document.onkeypress = function (event) {
   game.storeLetter(event.key)
