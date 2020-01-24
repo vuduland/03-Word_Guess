@@ -11,20 +11,3 @@ body {
   align-items: center;
   height: 100vh;
 }
-
-/* #bg-image {
-  width: 1920px;
-  height: 400px;
-} */
-
-h1 {
-  position: center;
-}
-
-.list-group {
-  color: black;
-}
-
-.word {
-  position: center;
-}
