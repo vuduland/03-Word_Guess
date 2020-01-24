@@ -4,6 +4,7 @@ const game = {
   guessesLeft: 9,
   guessedLetters: [],
   goodbye: 'Goodbye!',
+  hiddenWord: '',
   randoWord: '',
   wins: 0,
   wordList: ['racecar', 'anna', 'mom', 'level', 'kayak', 'rotator', 'stats', 'wow', 'rotor', 'tenet', 'sagas'],
@@ -23,16 +24,23 @@ const game = {
 
   // ALMOST WORKS, doesn't connect to the storeLetter() letter's guess decrement and does not post guessed letters to DOM
   initializeGame() {
-    console.log("OUTPUT: initializeGame -> initializeGame")
     this.generateWord()
-    this.updateGameScreen()
-    console.log(`${game.randoWord} LOOK HERE RANDOWORD`)
+    console.log(`INSIDE: HERE => initializeGame() OUTPUT ${this.randoWord}`)
+    // this.updateGameScreen()
+  },
+
+  generateWord(){
+    this.randoWord = this.wordList[Math.round(Math.random() * 10)]
+    console.log(`INSIDE: HERE => generateWord()`) /* OUTPUT ${this.randoWord}`*/
+    return this.randoWord
   },
 
   win() {
+    console.log(`INSIDE: HERE => win() OUTPUT ${this.randoWord}`)
+
   if (this.guess === this.randoWord) {
-      console.log("OUTPUT: win -> this.guess", this.guess)
-      this.wins++
+    this.wins++
+    console.log(`INSIDE: HERE => win() OUTPUT ${this.randoWord} & ${this.wins} AFTER INCREMENT`)
     }
     this.randoWord = ''
     this.guess = ''
@@ -42,16 +50,12 @@ const game = {
   },
 
   // WORKS
-  generateWord(){
-    console.log("OUTPUT: generateWord -> generateWord")
-    this.randoWord = this.wordList[Math.round(Math.random() * 10)]
-    console.log('OUTPUT: generateWord -> this.randoWord', this.randoWord)
-    return this.randoWord
-  },
+
 
 
   updateGameScreen() {
-    console.log("OUTPUT: updateGameScreen -> updateGameScreen")
+    let element = this.elements
+    console.log(`INSIDE: HERE => generateWord() OUTPUT ${["wordRandom.textContent: " + element.wordRandom.textContent, "remainCount.textContent: " + element.remainCount.textContent, "guessBox.textContent: " + element.guessBox.textContent, "winCount.textContent: " + element.winCount.textContent, "lossCount.textContent: " + element.lossCount.textContent]}`)
     // this.randoWord = ''
     // this.guessesLeft = 9
     // this.guessedLetters = []
@@ -66,29 +70,28 @@ const game = {
   // Generates the current word with letters that haven't been guessed as underscores.
   // WORKS
   getHiddenWord() {
-    let hiddenWord = ''
-    for (let i = 0; i < this.randoWord.length; i++) {
-      const currentLetter = this.randoWord[i]
+    for (let i = 1; i < this.randoWord.length; i++) {
+      let currentLetter = this.randoWord[i]
       if (this.guessedLetters.includes(currentLetter)) {
-        // hiddenWord += `${currentLetter} `
         this.guess += `${currentLetter}`
-        console.log(this.guess);
       } else {
-        hiddenWord += '_ '
+        this.hiddenWord += '_ '
       }
     }
+    console.log(`INSIDE: HERE => getHiddenWord() OUTPUT THIS.GUESS ${this.guess}`)
     return this.guess
   },
 
   // works
   storeLetter(letter) {
-    let noRepeat = letter.toLowerCase()
-    if (this.guessedLetters.includes(!noRepeat)) {
+    if (this.guessedLetters.includes(!letter)) {
+
     } else if (this.guessesLeft !== 0) {
       this.guessesLeft--
-      this.guessedLetters.push(noRepeat)
-      // this.updateGameScreen()
+      this.guessedLetters.push(letter)
+      this.updateGameScreen()
     }
+
   },
 
   /*
@@ -97,10 +100,10 @@ const game = {
 }
 
 game.initializeGame()
-
+game.updateGameScreen()
 // assigns variable letter to user keypress
 document.onkeypress = function (event) {
-  game.storeLetter(event.key)
+  game.storeLetter(event.key.toLowerCase())
 }
 
 
