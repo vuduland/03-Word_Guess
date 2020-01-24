@@ -28,14 +28,6 @@ const game = {
   **************************************************************************************************************************
 */
 
-
-
-
-
-
-
-
-
   // ALMOST WORKS, doesn't connect to the storeLetter() letter's guess decrement and does not post guessed letters to DOM
   initializeGame() {
     console.log("OUTPUT: initializeGame -> initializeGame")
