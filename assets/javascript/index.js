@@ -29,7 +29,15 @@ const game = {
 */
 
 
-  initializeGame () {
+
+
+
+
+
+
+
+  // ALMOST WORKS, doesn't connect to the storeLetter() letter's guess decrement and does not post guessed letters to DOM
+  initializeGame() {
     console.log("OUTPUT: initializeGame -> initializeGame")
     this.generateWord()
     this.updateGameScreen()
@@ -56,6 +64,8 @@ const game = {
       this.losePlayAgain()
       this.updateGameScreen()
   },
+
+  // WORKS
   generateWord(){
     console.log("OUTPUT: generateWord -> generateWord")
     this.randoWord = this.wordList[Math.round(Math.random() * 10)]
@@ -64,7 +74,7 @@ const game = {
   },
 
 
-  updateGameScreen () {
+  updateGameScreen() {
     console.log("OUTPUT: updateGameScreen -> updateGameScreen")
     this.elements.wordRandom.textContent = this.getHiddenWord()
     this.elements.remainCount.textContent = 9
@@ -74,12 +84,16 @@ const game = {
   },
 
   // Generates the current word with letters that haven't been guessed as underscores.
-  getHiddenWord () {
+  // WORKS
+  getHiddenWord() {
     let hiddenWord = ''
+    let guess = ''
     for (let i = 0; i < this.randoWord.length; i++) {
       const currentLetter = this.randoWord[i]
       if (this.guessedLetters.includes(currentLetter)) {
         hiddenWord += `${currentLetter} `
+        guess += `${currentLetter}`
+        console.log(guess);
       } else {
         hiddenWord += '_ '
       }
@@ -87,8 +101,8 @@ const game = {
     return hiddenWord
   },
 
-
-  storeLetter (letter) {
+  // works
+  storeLetter(letter) {
     const noRepeat = letter.toLowerCase()
     if (this.guessedLetters.includes(!noRepeat)) {
     } else if (this.guessesLeft !== 0) {
@@ -98,7 +112,7 @@ const game = {
     }
   },
 
-  losePlayAgain () {
+  losePlayAgain() {
     prompt("You've lost. Insert floppy disk to continue. Just kidding. Press Ok.")
 
     this.losses++
@@ -107,7 +121,7 @@ const game = {
     this.guessedLetters = []
   },
 
-  winPlayAgain () {
+  winPlayAgain() {
     prompt('You won! Do you want to play again?')
 
     this.wins++
@@ -116,7 +130,7 @@ const game = {
     this.guessedLetters = []
   },
 
-  areTheyWin () {
+  areTheyWin() {
     let hiddenWord = []
     for (let i = 0; i < this.randoWord.length; i++) {
       hiddenWord[i] = this.randoWord[i]
@@ -128,7 +142,7 @@ const game = {
     }
   },
 
-  areTheyLose () {
+  areTheyLose() {
     let hiddenWord = []
     for (let i = 0; i < this.randoWord.length; i++) {
       hiddenWord[i] = this.randoWord[i]
