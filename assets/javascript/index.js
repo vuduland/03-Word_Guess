@@ -1,17 +1,12 @@
 const game = {
-
-  wordList: ['racecar', 'anna', 'mom', 'level', 'kayak', 'rotator', 'stats', 'wow', 'rotor', 'tenet', 'sagas'],
-  wins: 0,
   losses: 0,
-  won: 'You won! Do you want to play again?',
-  lost: '',
-  randoWord: [],
+  guess: '',
   guessesLeft: 9,
   guessedLetters: [],
-
-
   goodbye: 'Goodbye!',
-
+  randoWord: '',
+  wins: 0,
+  wordList: ['racecar', 'anna', 'mom', 'level', 'kayak', 'rotator', 'stats', 'wow', 'rotor', 'tenet', 'sagas'],
 
   elements: {
     mainBox: document.getElementById('main-box'),
@@ -23,9 +18,7 @@ const game = {
   },
 
 /*
-  **************************************************************************************************************************
   methods:******************************************************************************************************************
-  **************************************************************************************************************************
 */
 
   // ALMOST WORKS, doesn't connect to the storeLetter() letter's guess decrement and does not post guessed letters to DOM
@@ -33,28 +26,19 @@ const game = {
     console.log("OUTPUT: initializeGame -> initializeGame")
     this.generateWord()
     this.updateGameScreen()
-    console.log(`${game.randoWord} LOOK HERE `)
+    console.log(`${game.randoWord} LOOK HERE RANDOWORD`)
   },
 
   win() {
-    console.log("OUTPUT: win -> win")
-    this.wins++
-    this.randoWord = null
+  if (this.guess === this.randoWord) {
+      console.log("OUTPUT: win -> this.guess", this.guess)
+      this.wins++
+    }
+    this.randoWord = ''
+    this.guess = ''
     this.guessesLeft = 9
     this.guessedLetters = []
-    this.winPlayAgain()
     this.updateGameScreen()
-  },
-
-  lose() {
-      console.log("OUTPUT: lose -> lose")
-      this.losses++
-      console.log("OUTPUT: lose -> losses", this.losses)
-      this.randoWord = []
-      this.guessesLeft = 9
-      this.guessedLetters = []
-      this.losePlayAgain()
-      this.updateGameScreen()
   },
 
   // WORKS
@@ -68,8 +52,12 @@ const game = {
 
   updateGameScreen() {
     console.log("OUTPUT: updateGameScreen -> updateGameScreen")
+    // this.randoWord = ''
+    // this.guessesLeft = 9
+    // this.guessedLetters = []
+    // this.guess = ''
     this.elements.wordRandom.textContent = this.getHiddenWord()
-    this.elements.remainCount.textContent = 9
+    this.elements.remainCount.textContent = this.guessesLeft
     this.elements.guessBox.textContent = []
     this.elements.winCount.textContent = this.wins
     this.elements.lossCount.textContent = this.losses
@@ -79,79 +67,33 @@ const game = {
   // WORKS
   getHiddenWord() {
     let hiddenWord = ''
-    let guess = ''
     for (let i = 0; i < this.randoWord.length; i++) {
       const currentLetter = this.randoWord[i]
       if (this.guessedLetters.includes(currentLetter)) {
-        hiddenWord += `${currentLetter} `
-        guess += `${currentLetter}`
-        console.log(guess);
+        // hiddenWord += `${currentLetter} `
+        this.guess += `${currentLetter}`
+        console.log(this.guess);
       } else {
         hiddenWord += '_ '
       }
     }
-    return hiddenWord
+    return this.guess
   },
 
   // works
   storeLetter(letter) {
-    const noRepeat = letter.toLowerCase()
+    let noRepeat = letter.toLowerCase()
     if (this.guessedLetters.includes(!noRepeat)) {
     } else if (this.guessesLeft !== 0) {
       this.guessesLeft--
       this.guessedLetters.push(noRepeat)
-      this.updateGameScreen()
+      // this.updateGameScreen()
     }
   },
-
-  losePlayAgain() {
-    prompt("You've lost. Insert floppy disk to continue. Just kidding. Press Ok.")
-
-    this.losses++
-    this.randoWord = []
-    this.guessesLeft = 9
-    this.guessedLetters = []
-  },
-
-  winPlayAgain() {
-    prompt('You won! Do you want to play again?')
-
-    this.wins++
-    this.randoWord = []
-    this.guessesLeft = 9
-    this.guessedLetters = []
-  },
-
-  areTheyWin() {
-    let hiddenWord = []
-    for (let i = 0; i < this.randoWord.length; i++) {
-      hiddenWord[i] = this.randoWord[i]
-    }
-    if (hiddenWord.includes('_ ') === false) {
-      return true
-    } else {
-      return false
-    }
-  },
-
-  areTheyLose() {
-    let hiddenWord = []
-    for (let i = 0; i < this.randoWord.length; i++) {
-      hiddenWord[i] = this.randoWord[i]
-    }
-    if (hiddenWord.includes('_ ') === true && this.guessesLeft === 0) {
-      return true
-    }
-    return false
-  }
 
   /*
-  ***********************************************************************************************************************
-  </methods> ************************************************************************************************************
-  ***********************************************************************************************************************
-
+  end methods ***********************************************************************************************************
   */
-
 }
 
 game.initializeGame()
@@ -161,8 +103,38 @@ document.onkeypress = function (event) {
   game.storeLetter(event.key)
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /*
-**************************************************************************************************************************
 comments: ****************************************************************************************************************
 
 line 13:
@@ -220,15 +192,12 @@ line 99:
 line 155:
    calling the generateWord() property/function to generate and return a random word from wordList[];
 
-  **************************************************************************************************************************
-  </comments> **************************************************************************************************************
-  **************************************************************************************************************************
 
+  end comments **************************************************************************************************************
 */
 
 
 /*
-
 additional:
 
 a different method of sorting:
@@ -238,6 +207,4 @@ compares a and b's index values (i think) and then the wordList.sort() returns a
 number between 0 and 1, then subtracts 0.5, so that if a is 0.4 it would return -0.1,
 and if b were 0.8, it would return 0.3, resulting in b being seen as greater value, and
 would be sorted before a in the array.
-
-
 */
