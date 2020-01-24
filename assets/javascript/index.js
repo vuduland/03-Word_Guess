@@ -8,23 +8,25 @@ const game = {
   randoWord: '',
   wins: 0,
   wordList: ['racecar', 'anna', 'mom', 'level', 'kayak', 'rotator', 'stats', 'wow', 'rotor', 'tenet', 'sagas'],
-
-  elements: {
-    mainBox: document.getElementById('main-box'),
-    wordRandom: document.getElementById('word-box'),
-    remainCount: document.getElementById('remain-box'),
-    guessBox: document.getElementById('guess-box'),
-    winCount: document.getElementById('win-box'),
-    lossCount: document.getElementById('loss-box')
-  },
-
+  mainBox: document.getElementById('main-box'),
+  wordRandom: document.getElementById('word-box'),
+  remainCount: document.getElementById('remain-box'),
+  guessBox: document.getElementById('guess-box'),
+  winCount: document.getElementById('win-box'),
+  lossCount: document.getElementById('loss-box'),
 /*
   methods:******************************************************************************************************************
 */
 
   // ALMOST WORKS, doesn't connect to the storeLetter() letter's guess decrement and does not post guessed letters to DOM
-  initializeGame() {
+  initializeGame(){
     this.generateWord()
+    this.hideWordDefineGuess()
+    this.wordRandom.textContent = this.hiddenWord
+    this.remainCount.textContent = this.guessesLeft
+    this.guessBox.textContent = this.guessedLetters
+    this.winCount.textContent = this.wins
+    this.lossCount.textContent = this.losses
     console.log(`INSIDE: HERE => initializeGame() OUTPUT ${this.randoWord}`)
     // this.updateGameScreen()
   },
@@ -35,41 +37,36 @@ const game = {
     return this.randoWord
   },
 
-  win() {
-    console.log(`INSIDE: HERE => win() OUTPUT ${this.randoWord}`)
+  winOrLose(){
+    console.log(`INSIDE: HERE => winOrLose() OUTPUT ${this.randoWord}`)
 
-  if (this.guess === this.randoWord) {
-    this.wins++
-    console.log(`INSIDE: HERE => win() OUTPUT ${this.randoWord} & ${this.wins} AFTER INCREMENT`)
+    if (this.guess !== this.randoWord && this.guessesLeft === 0) {
+      this.losses++
+      this.updateGameScreen()
+    } else {
+      this.wins++
+      this.updateGameScreen()
     }
-    this.randoWord = ''
-    this.guess = ''
-    this.guessesLeft = 9
-    this.guessedLetters = []
-    this.updateGameScreen()
+    console.log(`INSIDE: HERE => win() OUTPUT ${this.randoWord} & ${this.wins} WINS AFTER INCREMENT & ${this.losses} LOSSES AFTER DECREMENT`)
+
   },
 
-  // WORKS
-
-
-
-  updateGameScreen() {
-    let element = this.elements
-    console.log(`INSIDE: HERE => generateWord() OUTPUT ${["wordRandom.textContent: " + element.wordRandom.textContent, "remainCount.textContent: " + element.remainCount.textContent, "guessBox.textContent: " + element.guessBox.textContent, "winCount.textContent: " + element.winCount.textContent, "lossCount.textContent: " + element.lossCount.textContent]}`)
+  updateGameScreen(){
+    console.log(`INSIDE: updateGameScreen() OUTPUT ${"guess: " + this.guess}`)
     // this.randoWord = ''
+    // this.guess = ''
     // this.guessesLeft = 9
     // this.guessedLetters = []
-    // this.guess = ''
-    this.elements.wordRandom.textContent = this.getHiddenWord()
-    this.elements.remainCount.textContent = this.guessesLeft
-    this.elements.guessBox.textContent = []
-    this.elements.winCount.textContent = this.wins
-    this.elements.lossCount.textContent = this.losses
+    this.wordRandom.textContent = this.hideWordDefineGuess()
+    this.remainCount.textContent = this.guessesLeft
+    this.guessBox.textContent = this.guessedLetters
+    this.winCount.textContent = this.wins
+    this.lossCount.textContent = this.losses
   },
 
   // Generates the current word with letters that haven't been guessed as underscores.
   // WORKS
-  getHiddenWord() {
+  hideWordDefineGuess(){
     for (let i = 1; i < this.randoWord.length; i++) {
       let currentLetter = this.randoWord[i]
       if (this.guessedLetters.includes(currentLetter)) {
@@ -78,18 +75,18 @@ const game = {
         this.hiddenWord += '_ '
       }
     }
-    console.log(`INSIDE: HERE => getHiddenWord() OUTPUT THIS.GUESS ${this.guess}`)
-    return this.guess
+    console.log(`INSIDE: HERE => hideWordDefineGuess() OUTPUT THIS.GUESS ${this.guess}`)
+    // return this.guess
   },
 
   // works
-  storeLetter(letter) {
+  storeLetter(letter){
     if (this.guessedLetters.includes(!letter)) {
 
     } else if (this.guessesLeft !== 0) {
       this.guessesLeft--
       this.guessedLetters.push(letter)
-      this.updateGameScreen()
+      // this.updateGameScreen()
     }
 
   },
@@ -100,10 +97,11 @@ const game = {
 }
 
 game.initializeGame()
-game.updateGameScreen()
+
 // assigns variable letter to user keypress
 document.onkeypress = function (event) {
   game.storeLetter(event.key.toLowerCase())
+  game.updateGameScreen()
 }
 
 
@@ -179,7 +177,7 @@ line 66:
     }
 
 line 67:
-    calls getHiddenWord function everytime the updateGameScreen property/function is ran.
+    calls hideWordDefineGuess function everytime the updateGameScreen property/function is ran.
     move this decrement to check if you win function
 
 line 73:
