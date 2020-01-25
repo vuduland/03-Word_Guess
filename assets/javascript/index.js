@@ -1,7 +1,7 @@
 const game = {
   losses: 0,
   guess: '',
-  guessesLeft: 9,
+  guessesLeft: 5,
   guessedLetters: [],
   goodbye: 'Goodbye!',
   hiddenWord: '',
@@ -21,8 +21,8 @@ const game = {
   // ALMOST WORKS, doesn't connect to the storeLetter() letter's guess decrement and does not post guessed letters to DOM
   initializeGame(){
     this.randoWord = this.wordList[Math.round(Math.random() * 10)]
-    this.wordRandom.textContent = this.hiddenWord
-    this.remainCount.textContent = this.guessesLeft
+    this.wordRandom.textContent = this.getHiddenWord()
+    this.remainCount.textContent = this.randoWord.length
     this.guessBox.textContent = this.guessedLetters
     this.winCount.textContent = this.wins
     this.lossCount.textContent = this.losses
@@ -44,28 +44,35 @@ const game = {
 
   updateGame(){
     console.log(`INSIDE: updateGame() OUTPUT ${"guess: " + this.guess}`)
-    // this.randoWord = ''
-    // this.guess = ''
-    // this.guessesLeft = 9
-    // this.guessedLetters = []
-    this.wordRandom.textContent = this.hiddenWord
-    this.remainCount.textContent = this.guessesLeft
-    this.guessBox.textContent = this.guessedLetters
-    this.winCount.textContent = this.wins
-    this.lossCount.textContent = this.losses
+    if(this.guessesLeft >= 0 && this.randoWord === this.guess)
+    {
+     this.wins++
+     this.randoWord =''
+     this.guess = ''
+     this.guessesLeft = 5
+     this.guessedLetters = []
+
+    } else {
+      this.losses++
+      this.randoWord = ''
+      this.guess = ''
+      this.guessesLeft = 5
+      this.guessedLetters = []
+
+    }
   },
 
-  // storeLetter(letter){
-  //   if (this.guessedLetters.includes(!letter)) {
-  //     this.guessesLeft--
-  //     this.updateGame()
-  //   } else if (this.guessesLeft !== 0) {
-  //     this.guessesLeft--
-  //     this.guessedLetters.push(letter)
-  //     // this.updateGame()
-  //   }
+  storeLetter(letter){
+    if (this.guessedLetters.includes(!letter)) {
+      this.guessesLeft--
+      this.updateGame()
+    } else if (this.guessesLeft !== 0) {
+      this.guessesLeft--
+      this.guessedLetters.push(letter)
+      this.updateGame()
+    }
 
-  // },
+  },
 
 
 
@@ -87,23 +94,17 @@ const game = {
     return hiddenWord
   },
 
-  // Accepts a letter input and stores its value to the game.guessedLetters property/var
-  // Returns whether or not letter is correct guess << think this needs removed <5:04pm 9.27.2019
-  storeLetter (letter) {
-    const noRepeat = letter.toLowerCase()
-    if (this.guessedLetters.includes(!noRepeat)) {
-    } else if (this.guessesLeft !== 0) {
-      this.guessesLeft--
-      this.guessedLetters.push(noRepeat)
-      // this.initializeGame()
-    }
-  },
-
-
-  /*
-  end methods ***********************************************************************************************************
-  */
+  // storeLetter (letter) {
+  //   const noRepeat = letter.toLowerCase()
+  //   if (this.guessedLetters.includes(!noRepeat)) {
+  //   } else if (this.guessesLeft !== 0) {
+  //     this.guessesLeft--
+  //     this.guessedLetters.push(noRepeat)
+  //     // this.initializeGame()
+  //   }
+  // },
 }
+
 game.initializeGame()
 
 // assigns variable letter to user keypress
