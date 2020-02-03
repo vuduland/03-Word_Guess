@@ -41,7 +41,7 @@ const game = {
     this.elements.winCount.textContent = this.wins;
     this.elements.lossCount.textContent = this.losses;
 
-    console.log(`${game.chosenWord} LOOK HERE `);
+    console.log(`chosenWord: ${this.chosenWord}`);
   },
 
   // WORKS
@@ -52,19 +52,18 @@ const game = {
 
   updateGameScreen() {
     this.elements.wordChosen.textContent = this.getHiddenWord();
+    this.elements.remainCount.textContent = this.guessesLeft;
+    this.elements.guessBox.textContent = this.guessedLetters;
   },
 
-  // Generates the current word with letters that haven't been guessed as underscores.
   // WORKS
   getHiddenWord() {
     let hiddenWord = '';
-    let guess = '';
 
     for (let i = 0; i < this.chosenWord.length; i++) {
       let currentLetter = this.chosenWord[i];
 
       if (this.guessedLetters.includes(currentLetter)) {
-        //
         hiddenWord += currentLetter;
         this.matchedLetters[i] += currentLetter;
         // console.log(guess);
@@ -77,17 +76,22 @@ const game = {
 
   // works
   storeLetter(letter) {
-    const noRepeat = letter.toLowerCase();
-    if (this.guessedLetters.includes(!noRepeat)) {
-    } else if (this.guessesLeft !== 0) {
+    const wordUp = letter.toLowerCase();
+    if (!this.guessedLetters.includes(wordUp)) {
       this.guessesLeft--;
-      this.guessedLetters.push(noRepeat);
+      this.guessedLetters.push(wordUp);
+      this.updateGameScreen();
+    } else if (
+      this.guessedLetters.includes(
+        this.guessedLetters.includes(wordUp) && this.guessesLeft !== 0
+      )
+    ) {
       this.updateGameScreen();
     }
   }
 };
 
-game.startGame(game.dom);
+game.startGame();
 
 // assigns variable letter to user keypress
 document.onkeypress = function(event) {
