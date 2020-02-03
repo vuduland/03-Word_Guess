@@ -38,15 +38,15 @@ const game = {
     this.updateGameScreen();
     this.elements.remainCount.textContent = 9;
     this.elements.guessBox.textContent = [];
-    this.elements.winCount.textContent = this.wins;
-    this.elements.lossCount.textContent = this.losses;
+    this.elements.winCount.textContent = 0;
+    this.elements.lossCount.textContent = 0;
 
     console.log(`chosenWord: ${this.chosenWord}`);
   },
 
   // WORKS
   initWord() {
-    this.chosenWord = this.wordList[Math.floor(Math.random() * 10)];
+    this.chosenWord = this.wordList[Math.round(Math.random() * 10)];
     return this.chosenWord;
   },
 
@@ -54,6 +54,17 @@ const game = {
     this.elements.wordChosen.textContent = this.getHiddenWord();
     this.elements.remainCount.textContent = this.guessesLeft;
     this.elements.guessBox.textContent = this.guessedLetters;
+    this.elements.winCount.textContent = this.wins;
+    this.elements.lossCount.textContent = this.losses;
+  },
+
+  resetGame() {
+    this.initWord();
+    this.elements.wordChosen.textContent = this.getHiddenWord();
+    this.elements.remainCount.textContent = 9;
+    this.elements.guessBox.textContent = [];
+    this.elements.winCount.textContent = this.wins;
+    this.elements.lossCount.textContent = this.losses;
   },
 
   // WORKS
@@ -76,19 +87,53 @@ const game = {
 
   // works
   storeLetter(letter) {
-    const wordUp = letter.toLowerCase();
-    if (!this.guessedLetters.includes(wordUp)) {
+    const char = letter.toLowerCase();
+    if (!this.guessedLetters.includes(char) && this.guessesLeft !== 0) {
       this.guessesLeft--;
-      this.guessedLetters.push(wordUp);
+      this.guessedLetters.push(char);
       this.updateGameScreen();
-    } else if (
-      this.guessedLetters.includes(
-        this.guessedLetters.includes(wordUp) && this.guessesLeft !== 0
-      )
-    ) {
+    } else if (this.guessedLetters.includes(char) && this.guessesLeft !== 0) {
+      this.guessesLeft--;
       this.updateGameScreen();
+    } else {
+      this.winCheck();
     }
+  },
+
+  winCheck() {
+    if (!this.chosenWord.includes('_ ')) {
+      this.wins++;
+      console.log(`${!this.chosenWord.includes('_ ')}`);
+      return;
+    } else {
+      console.log(`${!this.chosenWord.includes('_ ')}`);
+      this.losses++;
+      return;
+    }
+    // if (this.guessesLeft === 0 && this.matchedLetters === this.chosenWord) {
+    //   this.wins++;
+    //   return true;
+    // } else if (
+    //   this.guessesLeft === 0 ||
+    //   this.matchedLetters === this.chosenWord
+    // ) {
+    //   this.wins++;
+    //   return true;
+    // } else if (
+    //   this.guessesLeft === 0 &&
+    //   this.matchedLetters !== this.chosenWord
+    // ) {
+    //   this.losses++;
+    //   return false;
+    // } else {
+    //   this.losses++;
+    //   return false;
+    // }
   }
+
+  // endGame() {
+
+  // }
 };
 
 game.startGame();
